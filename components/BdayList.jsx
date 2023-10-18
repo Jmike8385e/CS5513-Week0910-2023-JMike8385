@@ -11,47 +11,47 @@ import useAuth from "../hooks/useAuth";
 import { collection, onSnapshot, query, where } from "firebase/firestore";
 import { db } from "../firebase";
 import { FaToggleOff, FaToggleOn, FaTrash } from "react-icons/fa";
-import { deleteTodo, toggleTodoStatus } from "../api/todo";
-const TodoList = () => {
-    const [todos, setTodos] = React.useState([]);
+import { deleteBday, toggleAttendanceStatus } from "../api/bday";
+const BdayList = () => {
+    const [bdays, setBdays] = React.useState([]);
     const { user } = useAuth();
     const toast = useToast();
     const refreshData = () => {
         if (!user) {
-            setTodos([]);
+            setBdays([]);
             return;
         }
-        const q = query(collection(db, "todo"), where("user", "==", user.uid));
+        const q = query(collection(db, "bday"), where("user", "==", user.uid));
         onSnapshot(q, (querySnapchot) => {
             let ar = [];
             querySnapchot.docs.forEach((doc) => {
                 ar.push({ id: doc.id, ...doc.data() });
             });
-            setTodos(ar);
+            setBdays(ar);
         });
     };
     useEffect(() => {
         refreshData();
     }, [user]);
-    const handleTodoDelete = async (id) => {
-        if (confirm("Are you sure you wanna delete this todo?")) {
-            deleteTodo(id);
-            toast({ title: "Todo deleted successfully", status: "success" });
+    const handleBdayDelete = async (id) => {
+        if (confirm("Are you sure you wanna delete this birthday?")) {
+            deleteBday(id);
+            toast({ title: "Birthday deleted successfully", status: "success" });
         }
     };
-    const handleToggle = async (id, status) => {
-        const newStatus = status == "completed" ? "pending" : "completed";
-        await toggleTodoStatus({ docId: id, status: newStatus });
+    const handleToggle = async (id, attendance) => {
+        const newAttendance = attendance == "attending" ? "not attending" : "attending";
+        await toggleAttendanceStatus({ docId: id, attendance: newAttendance });
         toast({
-            title: `Todo marked ${newStatus}`,
-            status: newStatus == "completed" ? "success" : "warning",
+            title: `Birthday marked ${newAttendance}`,
+            status: newAttendance == "attending" ? "success" : "warning",
         });
     };
     return (
         <Box mt={5}>
             <SimpleGrid columns={{ base: 1, md: 3 }} spacing={8}>
-                {todos &&
-                    todos.map((todo) => (
+                {bdays &&
+                    bdays.map((todo) => (
                         <Box
                             p={3}
                             boxShadow="2xl"
@@ -60,7 +60,7 @@ const TodoList = () => {
                             _hover={{ boxShadow: "sm" }}
                         >
                             <Heading as="h3" fontSize={"xl"}>
-                                {todo.title}{" "}
+                                {todo.name}{" "}
                                 <Badge
                                     color="red.500"
                                     bg="inherit"
@@ -71,12 +71,12 @@ const TodoList = () => {
                                     }}
                                     float="right"
                                     size="xs"
-                                    onClick={() => handleTodoDelete(todo.id)}
+                                    onClick={() => handleBdayDelete(todo.id)}
                                 >
                                     <FaTrash />
                                 </Badge>
                                 <Badge
-                                    color={todo.status == "pending" ? "gray.500" : "green.500"}
+                                    color={todo.attendance == "not attending" ? "gray.500" : "green.500"}
                                     bg="inherit"
                                     transition={"0.2s"}
                                     _hover={{
@@ -85,23 +85,23 @@ const TodoList = () => {
                                     }}
                                     float="right"
                                     size="xs"
-                                    onClick={() => handleToggle(todo.id, todo.status)}
+                                    onClick={() => handleToggle(todo.id, todo.attendance)}
                                 >
-                                    {todo.status == "pending" ? <FaToggleOff /> : <FaToggleOn />}
+                                    {todo.attendance == "not attending" ? <FaToggleOff /> : <FaToggleOn />}
                                 </Badge>
                                 <Badge
                                     float="right"
                                     opacity="0.8"
-                                    bg={todo.status == "pending" ? "yellow.500" : "green.500"}
+                                    bg={todo.attendance == "not attending" ? "yellow.500" : "green.500"}
                                 >
-                                    {todo.status}
+                                    {todo.attendance}
                                 </Badge>
                             </Heading>
-                            <Text>{todo.description}</Text>
+                            <Text>{todo.birthday}</Text>
                         </Box>
                     ))}
             </SimpleGrid>
         </Box>
     );
 };
-export default TodoList;
+export default BdayList;

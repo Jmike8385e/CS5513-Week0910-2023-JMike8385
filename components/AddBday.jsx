@@ -9,21 +9,21 @@ import {
     useToast,
 } from "@chakra-ui/react";
 import useAuth from "../hooks/useAuth";
-import { addTodo } from "../api/todo";
-const AddTodo = () => {
-    const [title, setTitle] = React.useState("");
-    const [description, setDescription] = React.useState("");
-    const [status, setStatus] = React.useState("pending");
+import { addBday } from "../api/bday";
+const AddBday = () => {
+    const [name, setName] = React.useState("");
+    const [birthday, setBirthday] = React.useState("");
+    const [attendance, setAttendance] = React.useState("not attending");
     const [isLoading, setIsLoading] = React.useState(false);
 
     const toast = useToast();
 
     const { isLoggedIn, user } = useAuth();
 
-    const handleTodoCreate = async () => {
+    const handleBdayCreate = async () => {
         if (!isLoggedIn) {
             toast({
-                title: "You must be logged in to create a todo",
+                title: "You must be logged in to create a birthday",
                 status: "error",
                 duration: 9000,
                 isClosable: true,
@@ -31,53 +31,53 @@ const AddTodo = () => {
             return;
         }
         setIsLoading(true);
-        const todo = {
-            title,
-            description,
-            status,
+        const bday = {
+            name,
+            birthday,
+            attendance,
             userId: user.uid,
         };
-        await addTodo(todo);
+        await addBday(bday);
         setIsLoading(false);
 
-        setTitle("");
-        setDescription("");
-        setStatus("pending");
+        setName("");
+        setBirthday("");
+        setAttendance("pending");
 
-        toast({ title: "Todo created successfully", status: "success" });
+        toast({ title: "Birthday created successfully", status: "success" });
     };
 
     return (
         <Box w="40%" margin={"0 auto"} display="block" mt={5}>
             <Stack direction="column">
                 <Input
-                    placeholder="Title"
-                    value={title}
-                    onChange={(e) => setTitle(e.target.value)}
+                    placeholder="Name"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
                 />
                 <Textarea
-                    placeholder="Description"
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)}
+                    placeholder="Birthday"
+                    value={birthday}
+                    onChange={(e) => setBirthday(e.target.value)}
                 />
-                <Select value={status} onChange={(e) => setStatus(e.target.value)}>
+                <Select value={attendance} onChange={(e) => setAttendance(e.target.value)}>
                     <option
-                        value={"pending"}
+                        value={"not attending"}
                         style={{ color: "yellow", fontWeight: "bold" }}
                     >
-                        Pending ⌛
+                        Not Attending 🫥
                     </option>
                     <option
-                        value={"completed"}
+                        value={"attending"}
                         style={{ color: "green", fontWeight: "bold" }}
                     >
-                        Completed ✅
+                        Attending 🥳
                     </option>
                 </Select>
 
                 <Button
-                    onClick={() => handleTodoCreate()}
-                    disabled={title.length < 1 || description.length < 1 || isLoading}
+                    onClick={() => handleBdayCreate()}
+                    disabled={name.length < 1 || birthday.length < 1 || isLoading}
                     variantColor="teal"
                     variant="solid"
                 >
@@ -87,4 +87,4 @@ const AddTodo = () => {
         </Box>
     );
 };
-export default AddTodo;
+export default AddBday;
