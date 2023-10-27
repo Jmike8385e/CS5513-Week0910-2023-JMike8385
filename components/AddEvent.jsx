@@ -1,4 +1,4 @@
-// our first react component for our todo app!
+// our first react component for our event app!
 // so we can use jsx to make a component load React
 import React from "react";
 // now lets add a bunch of chakra ui components
@@ -13,27 +13,27 @@ import {
 } from "@chakra-ui/react";
 // bring in useAuth from our hooks so we can make sure use logged in for this comp
 import useAuth from "../hooks/useAuth";
-// bring in addTodo function from our api
-import { addTodo } from "../api/todo";
+// bring in addEventEntry function from our api
+import { addEventEntry } from "../api/event";
 
 // now lets define a react jsx component
-const AddTodo = () => {
+const AddEvent = () => {
     // every form control (text input) we want to associate a react state
     const [title, setTitle] = React.useState("");
-    const [description, setDescription] = React.useState("");
-    const [status, setStatus] = React.useState("pending");
+    const [date, setDate] = React.useState("");
+    const [attendance, setAttendance] = React.useState("not attending");
     const [isLoading, setIsLoading] = React.useState(false);
     const toast = useToast();
     // let's call useAuth()
     const { isLoggedIn, user } = useAuth() || {};
-    // let's define a function to run that handles the add todo operation
-    const handleTodoCreate = async () => {
+    // let's define a function to run that handles the add event operation
+    const handleEventCreate = async () => {
         // are we logged in?
         if ( !isLoggedIn ) {
             // show a floating alert
             toast(
                 {
-                    title: "You must be logged in to create a todo",
+                    title: "You must be logged in to create an event",
                     status: "error",
                     duration: 9000,
                     isClosable: true
@@ -44,31 +44,31 @@ const AddTodo = () => {
         // if our code continues execution this far, user is logged in
         setIsLoading(true);
         // let's build a object value template
-        const todo = {
+        const event = {
             title,
-            description,
-            status,
+            date,
+            attendance,
             userId: user.uid
         };
         // call our api function that should add a new doc to firestore collection
-        await addTodo(todo);
+        await addEventEntry(event);
         // once we get past the previous, the firestore doc is made (or an error)
         setIsLoading(false);
         setTitle("");
-        setDescription("");
-        setStatus("pending");
-        // show a floaty with status update
+        setDate("");
+        setAttendance("not attending");
+        // show a floaty with attendance update
         toast(
             {
-                title: "To do created",
+                title: "Event created",
                 status: "success"
             }
         );
 
     };
-    // let's return the markup for this AddTodo JSX component
+    // let's return the markup for this AddEvent JSX component
     return (
-        <Box maxW='sm'margin={"0 auto"} display="block" mt={5}>
+        <Box maxW='sm' margin={"0 auto"} display="block" mt={5}>
             <Stack direction="column">
                 <Input 
                     placeholder="Title"
@@ -76,33 +76,33 @@ const AddTodo = () => {
                     onChange={ (e) => setTitle( e.target.value ) }
                 />
                 <Textarea
-                    placeholder="Description"
-                    value={description}
-                    onChange={ (e) => setDescription(e.target.value) }
+                    placeholder="Date"
+                    value={date}
+                    onChange={ (e) => setDate(e.target.value) }
                 />
                 <Select 
-                    value={status} 
-                    onChange={ (e) => setStatus(e.target.value) }>
+                    value={attendance} 
+                    onChange={ (e) => setAttendance(e.target.value) }>
                     <option 
-                        value={"pending"} 
+                        value={"not attending"} 
                         style={{ color: "yellow", fontWeight: "bold" }} 
                     >
-                        Pending
+                        Not Attending
                     </option>
                     <option 
-                        value={"completed"} 
+                        value={"attending"} 
                         style={{ color: "green", fontWeight: "bold" }} 
                     >
-                        Completed
+                        Attending
                     </option>
                 </Select>
                 <Button
-                    onClick={ () => handleTodoCreate() }
-                    disabled={ title.length < 1 || description.length <1 || isLoading }
+                    onClick={ () => handleEventCreate() }
+                    disabled={ title.length < 1 || date.length <1 || isLoading }
                     colorScheme="teal"
                     variant="solid"
                 >
-                    Add Todo
+                    Add Event
                 </Button>
             </Stack>
         </Box>
@@ -110,4 +110,4 @@ const AddTodo = () => {
 };
 
 // don't forget to export the component function!
-export default AddTodo;
+export default AddEvent;

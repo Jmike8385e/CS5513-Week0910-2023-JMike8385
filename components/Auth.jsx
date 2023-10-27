@@ -38,19 +38,7 @@ const Auth = () => {
     };
     // define the jsx component
     return (
-        <Box display="flex" alignItems="center" justifyContent="space-between">
-             <Box>
-                <Link href="/">All Lists</Link>
-            </Box>
-            <Box>
-                <Link href="/add-todo">Add To Do</Link>
-            </Box>
-            <Box>
-                <Link href="/add-event">Add Event</Link>
-            </Box>
-            <Box>
-                <Link href="/add-contact">Add Contact</Link>
-            </Box>
+        <Box alignItems="right">
             <Box textAlign="right">
                 <Button onClick={() => toggleColorMode()}>
                     {colorMode == "dark" ? <FaSun /> : <FaMoon />}
