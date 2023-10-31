@@ -6,9 +6,7 @@ import {
     Box,
     Input,
     Button,
-    Textarea,
     Stack,
-    Select,
     useToast
 } from "@chakra-ui/react";
 // bring in useAuth from our hooks so we can make sure use logged in for this comp
@@ -17,7 +15,7 @@ import useAuth from "../hooks/useAuth";
 import { addContact } from "../api/contact";
 
 // now lets define a react jsx component
-const AddContact = () => {
+const AddContactInput = () => {
     // every form control (text input) we want to associate a react state
     const [name, setName] = React.useState("");
     const [phone, setPhone] = React.useState("");
@@ -100,7 +98,7 @@ const AddContact = () => {
                 <Input
                     placeholder="Address"
                     value={address}
-                    onChange={ (e) => setAddreses( e.target.value ) }
+                    onChange={ (e) => setAddress( e.target.value ) }
                 />
                 <Input 
                     placeholder="City"
@@ -131,4 +129,4 @@ const AddContact = () => {
 };
 
 // don't forget to export the component function!
-export default AddContact;
+export default AddContactInput;

@@ -17,7 +17,7 @@ import useAuth from "../hooks/useAuth";
 import { addEventEntry } from "../api/event";
 
 // now lets define a react jsx component
-const AddEvent = () => {
+const AddEventInput = () => {
     // every form control (text input) we want to associate a react state
     const [title, setTitle] = React.useState("");
     const [date, setDate] = React.useState("");
@@ -110,4 +110,4 @@ const AddEvent = () => {
 };
 
 // don't forget to export the component function!
-export default AddEvent;
+export default AddEventInput;

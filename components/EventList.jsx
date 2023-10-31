@@ -35,7 +35,7 @@ const EventList = () => {
     };
     // build nested function to toggle attendance
     const handleToggle = async (id, attendance) => {
-        const newAttendance = attendance == "completed" ? "pending" : "completed";
+        const newAttendance = attendance == "attending" ? "not attending" : "attending";
         await toggleEventAttendance(
             {
                 docId: id, 
@@ -45,7 +45,7 @@ const EventList = () => {
         toast(
             {
                 title: `Event marked ${newAttendance}`,
-                attendance: newAttendance == "completed" ? "success" : "warning",
+                attendance: newAttendance == "attending" ? "success" : "warning",
             }
         );
     };
@@ -82,7 +82,7 @@ const EventList = () => {
                                 <FaTrash />
                             </Badge>
                             <Badge
-                                color={event.attendance == "pending" ? "gray.500" : "green.500"}
+                                color={event.attendance == "not attending" ? "gray.500" : "green.500"}
                                 bg="inherit"
                                 transition={"0.2s"}
                                 _hover={{
@@ -93,12 +93,12 @@ const EventList = () => {
                                 size="xs"
                                 onClick={ () => handleToggle(event.id, event.attendance) }
                             >
-                                { event.attendance == "pending" ? <FaToggleOff /> : <FaToggleOn /> }
+                                { event.attendance == "not attending" ? <FaToggleOff /> : <FaToggleOn /> }
                             </Badge>
                             <Badge
                                 float="right"
                                 opacity="0.8"
-                                bg={ event.attendance == "pending" ? "yellow.500" : "green.500" }
+                                bg={ event.attendance == "not attending" ? "yellow.500" : "green.500" }
                             >
                                 { event.attendance }
                             </Badge>

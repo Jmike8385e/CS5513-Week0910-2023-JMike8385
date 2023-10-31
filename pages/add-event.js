@@ -2,13 +2,13 @@
 
 import { Container } from "@chakra-ui/react";
 import Auth from "../components/Auth";
-import AddEvent from "../components/AddEvent";
+import AddEventInput from "../components/AddEvent";
 
 export default function AddEvent() {
     return (
         <Container maxW="7xl">
             <Auth />
-            <AddEvent/>
+            <AddEventInput/>
         </Container>
     );
 }

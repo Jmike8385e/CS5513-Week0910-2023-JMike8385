@@ -2,9 +2,11 @@ import React, { useState } from 'react';
 import {
   Heading,
   Flex,
-  InputGroup,
+  Box,
+  Link,
   Input,
   Button,
+  Stack,
   Text
 } from "@chakra-ui/react";
 import useAuth from "../../hooks/useAuth";
@@ -37,7 +39,7 @@ const todoItem = ({ itemData }) => {
       }
     ).then(
       docRef => {
-        setStatusMsg("Updated!");
+        setStatusMsg("To Do Item Upated!");
       }
     ).catch(
       error => {
@@ -50,7 +52,15 @@ const todoItem = ({ itemData }) => {
   // finally return the jsx component
   return (
     <Flex flexDir="column" maxW={800} align="center" justify="start" minH="100vh" m="auto" px={4} py={3}>
-      <InputGroup>
+        <Box mb='3'>   
+            <Heading fontSize={"md"}>
+                <Link href="/">Home</Link>
+            </Heading>
+            </Box> 
+            <Box mb='3'>   
+            <Text>Edit To Do Item</Text>
+        </Box> 
+      <Stack spacing={2}>
         <Input type="text" value={inputTitle} onChange={(e) => setInputTitle(e.target.value)} placeholder="Title" />
         <Input type="text" value={inputDescription} onChange={(e) => setInputDescription(e.target.value)} placeholder="Description" />
         <Button
@@ -59,12 +69,12 @@ const todoItem = ({ itemData }) => {
         >
           Update
         </Button>
-      </InputGroup>
+      </Stack>
       <Text>
-        {itemData.status}
+        Current status: {itemData.status}
       </Text>
       <Text>
-        {new Date(itemData.createdAt).toLocaleDateString('en-US')}
+        To Do Item last updated:{new Date(itemData.createdAt).toLocaleDateString('en-US')}
       </Text>
       <Text>
         {statusMsg}

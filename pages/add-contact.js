@@ -2,13 +2,13 @@
 
 import { Container } from "@chakra-ui/react";
 import Auth from "../components/Auth";
-import AddContact from "../components/AddContact";
+import AddContactInput from "../components/AddContact";
 
 export default function AddContact() {
     return (
         <Container maxW="7xl">
             <Auth />
-            <AddContact/>
+            <AddContactInput/>
         </Container>
     );
 }

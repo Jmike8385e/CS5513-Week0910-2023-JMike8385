@@ -17,7 +17,7 @@ const addEventEntry = async ({ userId, title, date, attendance }) => {
         });
     } catch (err) { }
 };
-const toggleEventStatus = async ({ docId, attendance }) => {
+const toggleEventAttendance = async ({ docId, attendance }) => {
     try {
         const eventRef = doc(db, "event", docId);
         await updateDoc(eventRef, {
@@ -35,4 +35,4 @@ const deleteEvent = async (docId) => {
         console.log(err);
     }
 };
-export { addEventEntry, toggleEventStatus, deleteEvent };
+export { addEventEntry, toggleEventAttendance, deleteEvent };
