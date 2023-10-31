@@ -18,7 +18,7 @@ import {
 import { db } from "../../firebase";
 
 // define the jsx component to show just one single to do in our ui
-const todoItem = ({ itemData }) => {
+const TodoItem = ({ itemData }) => {
   const [inputTitle, setInputTitle] = useState(itemData.title);
   const [inputDescription, setInputDescription] = useState(itemData.description);
   const [statusMsg, setStatusMsg] = useState('');
@@ -108,4 +108,4 @@ export async function getServerSideProps(context) {
 }
 
 // export the component
-export default todoItem;
+export default TodoItem;

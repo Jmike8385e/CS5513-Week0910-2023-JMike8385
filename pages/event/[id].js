@@ -17,7 +17,7 @@ import {
 } from "firebase/firestore";
 import { db } from "../../firebase";
 
-const eventItem = ({ itemData }) => {
+const EventItem = ({ itemData }) => {
   const [inputTitle, setInputTitle] = useState(itemData.title);
   const [inputDate, setInputDate] = useState(itemData.date);
   const [attendanceMsg, setAttendanceMsg] = useState('');
@@ -96,4 +96,4 @@ export async function getServerSideProps(context) {
   };
 }
 
-export default eventItem;
+export default EventItem;

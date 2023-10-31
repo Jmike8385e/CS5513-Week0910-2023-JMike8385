@@ -17,7 +17,7 @@ import {
 } from "firebase/firestore";
 import { db } from "../../firebase";
 
-function contactItem({ itemData }) {
+function ContactItem({ itemData }) {
     const [inputName, setInputName] = useState(itemData.name);
     const [inputPhone, setInputPhone] = useState(itemData.phone);
     const [inputEmail, setInputEmail] = useState(itemData.email);
@@ -106,4 +106,4 @@ export async function getServerSideProps(context) {
     }
   };
 }
-export default contactItem;
+export default ContactItem;
